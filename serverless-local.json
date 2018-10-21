@@ -1,0 +1,5 @@
+{
+  "platform-url": "http://localhost:4000",
+  "session-token": "/dev/scheduler/session_token",
+  "event-topic-arn": "arn:aws:sns:us-east-1:142081933223:staging_platform_events"
+}

@@ -1,0 +1,23 @@
+service:
+  name: finvoice-notifications
+
+provider:
+  name: aws
+  runtime: python3.6
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  environment:
+    ENV_PLATFORM_URL: ${file(serverless-${self:provider.stage}.json):platform-url}
+    ENV_SESSION_TOKEN: ${file(serverless-${self:provider.stage}.json):session-token}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ssm:GetParameter"
+      Resource: "*"
+
+functions:
+  email_notification:
+    handler: src/handlers/email_notification.trigger
+    events:
+     - sns:
+        arn: ${file(serverless-${self:provider.stage}.json):event-topic-arn}
